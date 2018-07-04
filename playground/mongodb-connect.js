@@ -6,7 +6,7 @@ MongoClient.connect('mongodb://localhost:27017/TodoApp', (err, client) => {
         return console.log('Unable to connect mongodb server');
     }
     console.log('Connected to MongoDB server');
-    //const db = client.db('TodoApp');
+    const db = client.db('TodoApp');
     // db.collection('Todos').insertOne({
     //     text: 'Something to do',
     //     completed: false
@@ -40,5 +40,19 @@ MongoClient.connect('mongodb://localhost:27017/TodoApp', (err, client) => {
     //        //get time stamp from ops property
     //        console.log(JSON.stringify(result.ops[0]._id.getTimestamp()));
     //     })
+
+    db.collection('Todos').insertOne(
+        {
+            text: 'Go to school',
+            completed: false
+        }, 
+        (err, result) => {
+            if(err){
+                return console.log('Unable to insert new Todo');
+            }
+            console.log(JSON.stringify(result.ops,undefined,2));
+        }
+    )
+    
     client.close();
 });
