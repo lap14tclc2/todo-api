@@ -7,14 +7,16 @@ const {User} = require('./models/User');
 
 var app = express();
 
-app.listen(3000, () => {
-    console.log('Start on port 3000');
+//set up PORT for HEROKU or any enviroment, default is localhost
+const port = process.env.PORT || 3000;
+app.listen(port, () => {
+    console.log(`Start on port ${port}`);
 })
 
-// get method
+// GET route
 
 app.get('/todos', (req, res) => {
-    Todo.find().then( todos => {
+    Todo.find({}).then( todos => {
         res.send({todos});
     }, err => {
         res.status(400).send(err);
@@ -36,6 +38,7 @@ app.get('/todos/:id', (req,res) => {
    // res.send(req.params);
 })
 
+// POST route
 //use parse-body to get body data from client
 app.use(bodyParser.json());
 //post method to create new todo
@@ -53,4 +56,17 @@ app.post('/todos', (req, res) => {
 
 })
 
+// DELETE route
+app.delete('/todos/:id', (req, res) => {
+    const id = req.params.id;
+    if(!ObjectID.isValid(id)){
+        return res.status(404).send();
+    }
+    Todo.findByIdAndRemove(id).then( todo => {
+        if(!todo){
+            return res.status(404).send();
+        }
+        res.send(todo);
+    }).catch(err => res.status(400).send(err));
+})
 module.exports = {app}; 
