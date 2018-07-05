@@ -10,6 +10,17 @@ var app = express();
 app.listen(3000, () => {
     console.log('Start on port 3000');
 })
+
+// get method
+
+app.get('/todos', (req, res) => {
+    Todo.find().find().then( todos => {
+        res.send({todos});
+    }, err => {
+        res.status(400).send(err);
+    })
+})
+
 //use parse-body to get body data from client
 app.use(bodyParser.json());
 //post method to create new todo
