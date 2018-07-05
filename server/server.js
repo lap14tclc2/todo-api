@@ -76,7 +76,8 @@ app.delete('/todos/:id', (req, res) => {
 // UPDATE route
 app.patch('/todos/:id', (req, res) => {
     const id = req.params.id;
-    /* i use pick() in Lodash libary to get properties that i allow user update them. 
+    /*  body is subset of the things user send to us 
+        i use pick() in Lodash libary to get properties that i allow user update them. 
         because user is not allow update ID and completeAt
     */
     const body = _.pick(req.body,['text','completed']);
@@ -91,6 +92,7 @@ app.patch('/todos/:id', (req, res) => {
         body.completed = false;
         body.completeAt = null;
     }
+    //update todo
     Todo.findByIdAndUpdate(id,{$set: body},{new: true}).then(todo => {
         if(!todo){
             return res.status(404).send();
