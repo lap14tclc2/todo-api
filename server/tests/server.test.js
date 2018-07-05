@@ -9,8 +9,9 @@ const todos = [{
 }, {
     text: 'Second test todo'
 }]
-// make sure databse in mongo is empty using beforeEach
 
+// make sure databse in mongo is empty using beforeEach
+// beforeEach() run before each test
 beforeEach( done => {
     // add some seed data for GET test case
     Todo.remove({}).then( () => {

@@ -14,7 +14,7 @@ app.listen(3000, () => {
 // get method
 
 app.get('/todos', (req, res) => {
-    Todo.find().find().then( todos => {
+    Todo.find().then( todos => {
         res.send({todos});
     }, err => {
         res.status(400).send(err);
